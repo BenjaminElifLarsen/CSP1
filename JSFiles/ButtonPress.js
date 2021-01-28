@@ -64,16 +64,12 @@ function Clear() {
 
 function ComplexMath() {
     var fullString = document.getElementById("complex").value.toString();
-    var multiStrings = fullString.split("*");
-    //document.getElementById("result").innerHTML = typeof(fullString[1]);
     var test = [];
     for (i = 0; i < fullString.length; i++) {
         test.push(fullString[i].toString());
     }
     var testing = test.toString();
-    var testing2 = testing.replaceAll(",", "");
     var math = [];
-    var pos = 0;
     var numberString = "";
     for (i = 0; i < test.length; i++) {
         if (test[i] == "+" || test[i] == "-" || test[i] == "*" || test[i] == "/" || test[i] == "%") {
@@ -97,69 +93,64 @@ function ComplexMath() {
         var result = 0;
         var mostImportant = ["*", "/", "%"];
         var leastImportant = ["-", "+"];
-        //need more work as it currently will not give the correct results, e.g. 2+2*5/2-2*4 gives 20 rather than -1
-        //the reason for this is that the code will always run the equations on the last part even if the last element in results is not the one it should use. E.g. 5*2+2+2*4 = 5*2 = 10*4 = 40 + 2 = 42 + 2 = 44 instead of 2
-        //at some point take a look at the old c sharp calculator
-        //will also need to check for multiple operators in a row. 
+        //will need to check for multiple operators in a row. 
+        //2.1/5+5*2/3-1 gives 6.533333333333333 and not 2.753333, seems like it is the dot that is causing the problem
+        //e.g. 2.1 is in the code 21.
         var results = [];
         var goneThrough0 = [];
         for (m = 0; m < math.length; m++) { 
-                switch (math[m]) {
-                    case '*':
-                        if (results.length == 0)
-                            results.push(math[m - 1] * math[m + 1]);
-                        else {
-                            results.push(results[results.length-1] * math[m + 1]);
-                        }
-                        //result += math[m - 1] * math[m + 1];
-                        break;
-                    case '/':
-                        //result += math[m - 1] / math[m + 1];
-                        if (results.length == 0)
-                            results.push(math[m - 1] / math[m + 1]);
-                        else {
-                            results.push(results[results.length - 1] / math[m + 1]);
-                        }
-                        break;
-                    case '%':
-                        if (results.length == 0)
-                            results.push(math[m - 1] % math[m + 1]);
-                        else {
-                            results.push(results[results.length - 1] % math[m + 1]);
-                        }
-                        //result += math[m - 1] % math[m + 1];
-                        break;
-                    //default:
-                    //    results.push(math[m]);
-                    //    break;
-                
+            var str = math[m];
+            if (str == mostImportant[0]) {
+                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
+                var rightValue = parseFloat(math[m + 1]);
+                result = leftValue * rightValue;
+                goneThrough0.length = goneThrough0.length - 1;
+                goneThrough0.push(result.toString());
+                m++;
+            } else if (str == mostImportant[1]) {
+                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
+                var rightValue = parseFloat(math[m + 1]);
+                result = leftValue / rightValue;
+                goneThrough0.length = goneThrough0.length - 1;
+                goneThrough0.push(result.toString());
+                m++;
+            } else if (str == mostImportant[2]) {
+                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
+                var rightValue = parseFloat(math[m + 1]);
+                result = leftValue % rightValue;
+                goneThrough0.length = goneThrough0.length - 1;
+                goneThrough0.push(result.toString());
+                m++;
+
+            } else {
+                goneThrough0.push(str);
             }
         }
 
         var goneThrough1 = [];
-        for (m = 0; m < math.length; m++) {
-            switch (math[m]) {
-                case '+':
-                    if (results.length == 0)
-                        results.push(parseFloat(math[m - 1]) + parseFloat(math[m + 1]));
-                    else {
-                        results.push(parseFloat(results[results.length - 1]) + parseFloat(math[m + 1]));
-                    }
-                    //result += math[m - 1] * math[m + 1];
-                    break;
-                case '-':
-                    //result += math[m - 1] / math[m + 1];
-                    if (results.length == 0)
-                        results.push(math[m - 1] - math[m + 1]);
-                    else {
-                        results.push(results[results.length - 1] - math[m + 1]);
-                    }
-                    break;
+        for (m = 0; m < goneThrough0.length; m++) {
+            var str = goneThrough0[m];
+            if (str == leastImportant[0]) {
+                var leftValue = parseFloat(goneThrough1[goneThrough1.length - 1]);
+                var rightValue = parseFloat(goneThrough0[m + 1]);
+                result = leftValue - rightValue;
+                goneThrough1.length = goneThrough1.length - 1;
+                goneThrough1.push(result.toString());
+                m++;
+            } else if (str == leastImportant[1]) {
+                var leftValue = parseFloat(goneThrough1[goneThrough1.length - 1]);
+                var rightValue = parseFloat(goneThrough0[m + 1]);
+                result = leftValue + rightValue;
+                goneThrough1.length = goneThrough1.length - 1;
+                goneThrough1.push(result.toString());
+                m++;
 
+            } else {
+                goneThrough1.push(str);
             }
         }
 
-        document.getElementById("resultComplex").innerHTML = results;
+        document.getElementById("resultComplex").innerHTML = goneThrough1;
 
     }
     
