@@ -13,6 +13,35 @@
 
     <input id="btnPressMe" type="button" value="Tryk mig ej!" onclick="numberOfButtonPresses = ButtonPress(numberOfButtonPresses)" />
     <!--<input id="btnPressMe" type="button" value="Tryk mig!" onclick="ButtonPress()" />-->
+    <input id="btnPressMe2" type="button" value="Tryk mig!" onclick="WriteOut()" />
+
+    <p id="test"></p>
+
+    <input id="txt" type="text" />
+    <button onclick="Txt()">Alert</button>
+
+    <div>
+        <h1>Math</h1>
+        <h4>First Value</h4>
+        <input id="number1" type="number" />
+        <h4>Second Value</h4>
+        <input id="number2" type="number" />
+        <h4>Operators</h4>
+        <input id="buttonPlus" type="button" value="+" onclick="SimpleMath('+')" />
+        <input id="buttonMinus" type="button" value="-" onclick="SimpleMath('-')" />
+        <input id="buttonMultiply" type="button" value="*" onclick="SimpleMath('*')" />
+        <input id="buttonDivide" type="button" value="/" onclick="SimpleMath('/')" />
+        <input id="buttonModular" type="button" value="%" onclick="SimpleMath('%')" />
+        <h4>Result</h4>
+        <textarea id="result"></textarea>
+        <input id="btnComplexClear" type="button" value="Clear" onclick="ClearSimpel()" />
+    </div>
+    <div>
+        <input  id="complex" type="text" value="" />
+        <input id="btnComplexMath" type="button" value="Calculate" onclick="ComplexMath()" />
+        <textarea id="resultComplex"></textarea>
+        <input id="btnComplexClear" type="button" value="Clear" onclick="Clear()"/>
+    </div>
 </body>
 
 
