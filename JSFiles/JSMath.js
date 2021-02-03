@@ -98,7 +98,7 @@ function ComplexMath() {
         var mostImportant = ["*", "/", "%"];
         var leastImportant = ["-", "+"];
         //will need to check for multiple operators in a row. 
-
+        //should really get around to optimise this and write functions to call instead of repeating code...
         //*, /, and %
         var goneThrough0 = [];
         for (m = 0; m < math.length; m++) { 
