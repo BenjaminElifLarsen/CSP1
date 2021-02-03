@@ -3,12 +3,20 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Startup</title>
+    <title>Javascript</title>
     <link href="CSS/main.css" rel="stylesheet" />
 
 </head>
 
 <body>
+    <nav>
+        <ul>
+
+            <li><a href="../Index.html">Javascript</a></li>
+            <li><a href="../jQuery.html">jQuery</a></li>
+
+        </ul>
+    </nav>
     <h2>Pure Javascript</h2>
 
     <input id="btnPressMe" type="button" value="Tryk mig ej!" onclick="numberOfButtonPresses = ButtonPress(numberOfButtonPresses)" />
@@ -37,7 +45,7 @@
         <input id="btnComplexClear" type="button" value="Clear" onclick="ClearSimpel()" />
     </div>
     <div>
-        <h1>Complex Math (does not deal with dots that well [cannot use ^ and ()])</h1>
+        <h1>Complex Math (cannot use ^ and (). Does not permit an equation to start with a negative number)</h1>
         <input  id="complex" type="text" value="" />
         <input id="btnComplexMath" type="button" value="Calculate" onclick="ComplexMath()" />
         <textarea id="resultComplex"></textarea>

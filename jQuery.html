@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jQuery</title>
+    <link href="CSS/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!--faster load, but require internet connection-->
+</head>
+
+<body>
+    <nav>
+        <ul>
+
+            <li><a href="../Index.html">Javascript</a></li>
+            <li><a href="../jQuery.html">jQuery</a></li>
+
+        </ul>
+    </nav>
+    <h1>Best Title</h1>
+
+    <button>Change the title!</button>
+    <select name="colours" id="colours">
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="blue">Blue</option>
+        <option value="snow">Snow</option>
+        <option value="aqua">Aqua</option>
+
+    </select>
+    <p>
+        bla bla bla
+
+
+    </p>
+
+    <!--<ul id="list">
+        <li>Hello 1</li>
+        <li>Hello 2</li>
+        <li>Hello 3</li>
+        <li>Hello 4</li>
+        <li>Hello 5</li>
+    </ul>
+    <ul class="list1">
+        <li>Hello 1</li>
+        <li>Hello 2</li>
+        <li>Hello 3</li>
+        <li>Hello 4</li>
+        <li>Hello 5</li>
+    </ul>
+    <ul class="list2">
+        <li>Hello 1</li>
+        <li>Hello 2</li>
+        <li>Hello 3</li>
+        <li>Hello 4</li>
+        <li>Hello 5</li>
+    </ul>-->
+
+    <!--<script src="jquery-3.5.1.js"></script>-->
+    <script> 
+        //live is no more as of 1.9, cant the on to work to give the new buttons a function
+        //$('button').on('click', function() {//$('button').click(function () {
+        //    $('<button />').text('New').appendTo('body');
+        //    //$('h1').text('But... but... the title was the best one :(')
+        //    //$(this).text('Done!!!')
+        //});
+        //$('button').click(function () {
+        //    $('h1').css('color','red')
+
+        //});
+        $('#colours').change(function () {
+            //alert($(this).val());
+            var colour = $(this).val();
+            $('h1').css('color', colour);
+        });
+
+
+        //var li = $("li");
+        //console.log(li);
+        //$("#list li").addClass('green bold');
+        //$("#list li:first-child").addClass('green');
+        //$("#list li:nth-child(1)").addClass('green');
+        //$("#list li").first().addClass('green');
+        //$("#list li").last().addClass('bold');
+        //$("#list li").eq(1).addClass('green bold');
+        //$("#list li").eq(-2).addClass('green bold');
+
+        //$('h1').text('New Header').wrapInner('<span class="bold" />');
+
+        //$('p').wrap('<div id="content" />');
+        //also appends to the nav links
+        //$('ul li').last().after('<li>item 1</li>');
+        //$('ul').append('<li>item 2</li>')
+        //$('ul').prepend('<li>item 3</li>')
+        //$('<li>item 4</li>').prependTo('ul');
+        //$('ul.list2 li:last-child').clone().appendTo('.list1');
+       // $('ul').prependTo('#content')
+
+    </script>
+</body>
+
+
+</html>

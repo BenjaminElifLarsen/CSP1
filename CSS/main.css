@@ -1,5 +1,5 @@
 ﻿body {
-    background-color : red;
+    background-color : darkred;
     
 }
 h2 {
@@ -10,3 +10,12 @@ h3{
     color : coral;
 }
 
+li{
+    color: snow;
+}
+.green{
+    color: green;
+}
+.bold{
+    font-weight: bold;
+}

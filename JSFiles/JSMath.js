@@ -90,6 +90,7 @@ function ComplexMath() {
             
     }
     var length = math.length;
+    //right now, the first index will always be "" the equations does not start with a number
     if (math[0] == "+" || math[0] == "-" || math[0] == "*" || math[0] == "%" || math[0] == "/" || math[length - 1] == "+" || math[length - 1] == "-" || math[length - 1] == "*" || math[length - 1] == "%" || math[length - 1] == "/")
         document.getElementById("resultComplex").innerHTML = "Incomplete Equation";
     else {
