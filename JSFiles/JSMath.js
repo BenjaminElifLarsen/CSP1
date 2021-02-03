@@ -71,18 +71,21 @@ function ComplexMath() {
     var testing = test.toString();
     var math = [];
     var numberString = "";
+    //convert the string into its math parts and puts numbers together.
+    //to do: return an error if a letter is present, right now any letters will be ignored
     for (i = 0; i < test.length; i++) {
         if (test[i] == "+" || test[i] == "-" || test[i] == "*" || test[i] == "/" || test[i] == "%") {
             math.push(numberString);
             math.push(test[i]);
             numberString = "";
         }
-        else if (parseFloat(test[i]) >= 0 && parseFloat(test[i]) <= 9) {
+        else if (test[i] == "." || test[i] == ","|| parseFloat(test[i]) >= 0 && parseFloat(test[i]) <= 9  ) {
             numberString += test[i];
             if (test.length - 1 == i) {
                 math.push(numberString);
             }
         }
+        //document.getElementById("resultComplex").innerHTML = math.toString();
         
             
     }
@@ -94,9 +97,8 @@ function ComplexMath() {
         var mostImportant = ["*", "/", "%"];
         var leastImportant = ["-", "+"];
         //will need to check for multiple operators in a row. 
-        //2.1/5+5*2/3-1 gives 6.533333333333333 and not 2.753333, seems like it is the dot that is causing the problem
-        //e.g. 2.1 is in the code 21.
-        var results = [];
+
+        //*, /, and %
         var goneThrough0 = [];
         for (m = 0; m < math.length; m++) { 
             var str = math[m];
@@ -126,7 +128,7 @@ function ComplexMath() {
                 goneThrough0.push(str);
             }
         }
-
+        //+ and -
         var goneThrough1 = [];
         for (m = 0; m < goneThrough0.length; m++) {
             var str = goneThrough0[m];

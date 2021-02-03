@@ -69,7 +69,7 @@
   <ItemGroup>
     <Content Include="CSS\main.css" />
     <Content Include="Index.html" />
-    <Content Include="JSFiles\ButtonPress.js" />
+    <Content Include="JSFiles\JSMath.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
