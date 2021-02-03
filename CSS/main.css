@@ -19,3 +19,12 @@ li{
 .bold{
     font-weight: bold;
 }
+
+.animation{
+    width:100px;
+    height:100px;
+/*    display: none;*/
+}
+.blue {
+    background: blue;
+}

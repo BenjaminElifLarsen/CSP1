@@ -16,7 +16,34 @@
 
         </ul>
     </nav>
-    <h1>Best Title</h1>
+    <div class="animation blue"></div>
+
+    <button>Press me</button>
+
+
+    <script>
+        //$('.animation').slideUp();
+        //$('.animation').animate({
+        //    //width: 'hide',
+        //    //height: 'hide'
+        //    //width: 'show',
+        //    //height: 'show'
+        //    //marginLeft: 300,
+        //    //marginTop: 150
+        //}, 250);
+        $('button').click(function () {
+            $('.animation').fadeToggle('slow', function () {
+                if ($(this).is(':visible'))
+                    console.log('visible');
+                else
+                    console.log('invisible');
+            }); //slideToggle() //can also use a number (ms)
+        });
+    </script>
+
+
+    <!--<h1>Best Title</h1>
+
 
     <button>Change the title!</button>
     <select name="colours" id="colours">
@@ -31,8 +58,7 @@
         bla bla bla
 
 
-    </p>
-
+    </p>-->
     <!--<ul id="list">
         <li>Hello 1</li>
         <li>Hello 2</li>
@@ -54,46 +80,45 @@
         <li>Hello 4</li>
         <li>Hello 5</li>
     </ul>-->
-
     <!--<script src="jquery-3.5.1.js"></script>-->
-    <script> 
-        //live is no more as of 1.9, cant the on to work to give the new buttons a function
-        //$('button').on('click', function() {//$('button').click(function () {
-        //    $('<button />').text('New').appendTo('body');
-        //    //$('h1').text('But... but... the title was the best one :(')
-        //    //$(this).text('Done!!!')
-        //});
-        //$('button').click(function () {
-        //    $('h1').css('color','red')
+    <script>
+            //live is no more as of 1.9, cant the on to work to give the new buttons a function
+            //$('button').on('click', function() {//$('button').click(function () {
+            //    $('<button />').text('New').appendTo('body');
+            //    //$('h1').text('But... but... the title was the best one :(')
+            //    //$(this).text('Done!!!')
+            //});
+            //$('button').click(function () {
+            //    $('h1').css('color','red')
 
-        //});
-        $('#colours').change(function () {
-            //alert($(this).val());
-            var colour = $(this).val();
-            $('h1').css('color', colour);
-        });
+            //});
+            //$('#colours').change(function () {
+            //    //alert($(this).val());
+            //    var colour = $(this).val();
+            //    $('h1').css('color', colour);
+            //});
 
 
-        //var li = $("li");
-        //console.log(li);
-        //$("#list li").addClass('green bold');
-        //$("#list li:first-child").addClass('green');
-        //$("#list li:nth-child(1)").addClass('green');
-        //$("#list li").first().addClass('green');
-        //$("#list li").last().addClass('bold');
-        //$("#list li").eq(1).addClass('green bold');
-        //$("#list li").eq(-2).addClass('green bold');
+            //var li = $("li");
+            //console.log(li);
+            //$("#list li").addClass('green bold');
+            //$("#list li:first-child").addClass('green');
+            //$("#list li:nth-child(1)").addClass('green');
+            //$("#list li").first().addClass('green');
+            //$("#list li").last().addClass('bold');
+            //$("#list li").eq(1).addClass('green bold');
+            //$("#list li").eq(-2).addClass('green bold');
 
-        //$('h1').text('New Header').wrapInner('<span class="bold" />');
+            //$('h1').text('New Header').wrapInner('<span class="bold" />');
 
-        //$('p').wrap('<div id="content" />');
-        //also appends to the nav links
-        //$('ul li').last().after('<li>item 1</li>');
-        //$('ul').append('<li>item 2</li>')
-        //$('ul').prepend('<li>item 3</li>')
-        //$('<li>item 4</li>').prependTo('ul');
-        //$('ul.list2 li:last-child').clone().appendTo('.list1');
-       // $('ul').prependTo('#content')
+            //$('p').wrap('<div id="content" />');
+            //also appends to the nav links
+            //$('ul li').last().after('<li>item 1</li>');
+            //$('ul').append('<li>item 2</li>')
+            //$('ul').prepend('<li>item 3</li>')
+            //$('<li>item 4</li>').prependTo('ul');
+            //$('ul.list2 li:last-child').clone().appendTo('.list1');
+           // $('ul').prependTo('#content')
 
     </script>
 </body>
