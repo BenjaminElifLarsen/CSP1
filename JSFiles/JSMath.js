@@ -53,8 +53,8 @@ function SimpleMath(sign) {
 }
 
 function ClearSimpel() {
-    document.getElementById("number1").innerHTML = 0;
-    document.getElementById("number2").innerHTML = 0;
+    document.getElementById("number1").value = "";
+    document.getElementById("number2").value = "";
     document.getElementById("result").innerHTML = "";
 }
 
