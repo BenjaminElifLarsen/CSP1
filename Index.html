@@ -19,14 +19,14 @@
     </nav>
     <h2>Pure Javascript</h2>
 
-    <input id="btnPressMe" type="button" value="Tryk mig ej!" onclick="numberOfButtonPresses = ButtonPress(numberOfButtonPresses)" />
+    <!--<input id="btnPressMe" type="button" value="Tryk mig ej!" onclick="numberOfButtonPresses = ButtonPress(numberOfButtonPresses)" />-->
     <!--<input id="btnPressMe" type="button" value="Tryk mig!" onclick="ButtonPress()" />-->
-    <input id="btnPressMe2" type="button" value="Tryk mig!" onclick="WriteOut()" />
+    <!--<input id="btnPressMe2" type="button" value="Tryk mig!" onclick="WriteOut()" />
 
     <p id="test"></p>
 
     <input id="txt" type="text" />
-    <button onclick="Txt()">Alert</button>
+    <button onclick="Txt()">Alert</button>-->
 
     <div>
         <h1>Math</h1>
@@ -44,12 +44,23 @@
         <textarea id="result"></textarea>
         <input id="btnComplexClear" type="button" value="Clear" onclick="ClearSimpel()" />
     </div>
+
+    <!--<button onclick="ButtonCreations()">Testing</button>-->
+    <h4>First Value</h4>
+    <input id="number1Pratice" type="number" />
+    <h4>Second Value</h4>
+    <input id="number2Pratice" type="number" />
+    <div id="pratice">
+
+    </div>
+    <textarea id="resultPratice"></textarea>
+
     <div>
         <h1>Complex Math (cannot use ^ and (). Does not permit an equation to start with a negative number)</h1>
-        <input  id="complex" type="text" value="" />
+        <input id="complex" type="text" value="" />
         <input id="btnComplexMath" type="button" value="Calculate" onclick="ComplexMath()" />
         <textarea id="resultComplex"></textarea>
-        <input id="btnComplexClear" type="button" value="Clear" onclick="Clear()"/>
+        <input id="btnComplexClear" type="button" value="Clear" onclick="Clear()" />
     </div>
 </body>
 
@@ -68,4 +79,7 @@
 </script>-->
 <!--<script src="JSFiles/ButtonPress.js"></script>-->
 <script src="JSFiles/JSMath.js"></script>
+<script>
+    ButtonCreations();
+</script>
 

@@ -33,6 +33,60 @@ function Txt() {
         alert(document.getElementById("txt").value)
 }
 
+function ButtonCreations() {
+    var operators = ["+", "-", "*", "/"];
+    var placementStart = document.getElementById("pratice");
+    //for (i = 0; i < operators.length; i++) {
+
+    //    var button = document.createElement("button");
+    //    button.value = operators[i];
+    //    button.textContent = operators[i];
+    //    button.onclick = function (){
+    //        var result;
+    //        var x = parseFloat(document.getElementById("number1Pratice").value);
+    //        var y = parseFloat(document.getElementById("number2Pratice").value); 
+    //        switch (button.textContent) {
+    //            case '+':
+    //                result = x + y;
+    //                break;
+    //            case '-':
+    //                result = x - y;
+    //                break;
+    //            case '*':
+    //                result = x * y;
+    //                break;
+    //            case '/':
+    //                result = x / y;
+    //                break;
+    //        }
+    //        document.getElementById("resultPratice").innerHTML = result;
+    //    };
+    var plus = document.createElement("button");
+    var buttons = [];
+    plus.value = '+';
+    plus.textContent = plus.value;
+    plus.onclick = function () { document.getElementById("resultPratice").innerHTML = parseFloat(document.getElementById("number1Pratice").value) + parseFloat(document.getElementById("number2Pratice").value); };
+    buttons.push(plus);
+    var minus = document.createElement("button");
+    minus.value = '-';
+    minus.textContent = minus.value;
+    minus.onclick = function () { document.getElementById("resultPratice").innerHTML = parseFloat(document.getElementById("number1Pratice").value) - parseFloat(document.getElementById("number2Pratice").value); };
+    buttons.push(minus);
+    var multiply = document.createElement("button");
+    multiply.value = '*';
+    multiply.textContent = multiply.value;
+    multiply.onclick = function () { document.getElementById("resultPratice").innerHTML = parseFloat(document.getElementById("number1Pratice").value) * parseFloat(document.getElementById("number2Pratice").value); };
+    buttons.push(multiply);
+    var divide = document.createElement("button");
+    divide.value = '/';
+    divide.textContent = divide.value;
+    divide.onclick = function () { document.getElementById("resultPratice").innerHTML = parseFloat(document.getElementById("number1Pratice").value) / parseFloat(document.getElementById("number2Pratice").value); };
+    buttons.push(divide);
+    for (i = 0; i < buttons.length; i++)
+        placementStart.appendChild(buttons[i])
+    //}
+}
+
 function SimpleMath(sign) {
     //alert(sign);
     var z;
@@ -64,33 +118,33 @@ function Clear() {
 
 function ComplexMath() {
     var fullString = document.getElementById("complex").value.toString();
-    var test = [];
+    var chars = [];
     for (i = 0; i < fullString.length; i++) {
-        test.push(fullString[i].toString());
+        chars.push(fullString[i].toString());
     }
-    var testing = test.toString();
     var math = [];
     var numberString = "";
     //convert the string into its math parts and puts numbers together.
     //to do: return an error if a letter is present, right now any letters will be ignored
-    for (i = 0; i < test.length; i++) {
-        if (test[i] == "+" || test[i] == "-" || test[i] == "*" || test[i] == "/" || test[i] == "%") {
-            math.push(numberString);
-            math.push(test[i]);
+    for (i = 0; i < chars.length; i++) {
+        if (chars[i] == "+" || chars[i] == "-" || chars[i] == "*" || chars[i] == "/" || chars[i] == "%") {
+            if (numberString != "")
+                math.push(numberString);
+            math.push(chars[i]);
             numberString = "";
         }
-        else if (test[i] == "." || test[i] == ","|| parseFloat(test[i]) >= 0 && parseFloat(test[i]) <= 9  ) {
-            numberString += test[i];
-            if (test.length - 1 == i) {
-                math.push(numberString);
+        else if (chars[i] == "." || chars[i] == ","|| parseFloat(chars[i]) >= 0 && parseFloat(chars[i]) <= 9  ) {
+            numberString += chars[i];
+            if (chars.length - 1 == i) {
+                if (chars[i] == ",")
+                    math.push(".");
+                else
+                    math.push(numberString);
             }
-        }
-        //document.getElementById("resultComplex").innerHTML = math.toString();
-        
+        }    
             
     }
     var length = math.length;
-    //right now, the first index will always be "" the equations does not start with a number
     if (math[0] == "+" || math[0] == "-" || math[0] == "*" || math[0] == "%" || math[0] == "/" || math[length - 1] == "+" || math[length - 1] == "-" || math[length - 1] == "*" || math[length - 1] == "%" || math[length - 1] == "/")
         document.getElementById("resultComplex").innerHTML = "Incomplete Equation";
     else {
