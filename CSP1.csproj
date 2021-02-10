@@ -70,7 +70,8 @@
     <Content Include="CSS\main.css" />
     <Content Include="Index.html" />
     <Content Include="jquery-3.5.1.js" />
-    <Content Include="jQuery.html" />
+    <Content Include="JQueryCalculator.html" />
+    <Content Include="jQueryTest.html" />
     <Content Include="JSFiles\JSMath.js" />
     <Content Include="Web.config" />
   </ItemGroup>

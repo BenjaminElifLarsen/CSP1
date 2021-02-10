@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jQuery</title>
+    <link href="CSS/main.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <ul>
+
+            <li><a href="../Index.html">Javascript</a></li>
+            <li><a href="../jQueryTest.html">jQuery</a></li>
+            <li><a href="../JQueryCalculator.html">JQueryCalculator</a></li>
+        </ul>
+    </nav>
+    <!--animate the calculator. The entire interface should move in from the left and fade in while it is moving in-->
+    <button class="Display">Display calculator</button>
+    <div class="PrimaryAnimation">
+        <div class="Location">
+        </div>
+    </div>
+    <script>
+        var animated = '.PrimaryAnimation';
+        var placement = '.Location'
+        $(animated).fadeOut(0);
+        $('button').on('click', function () {
+            $('<textarea />').text("test").attr('id', 'result').appendTo(placement)
+            $('<button />').text('+').click(function () { document.getElementById('result').innerHTML = '+'; }).appendTo(placement);
+            $('<button />').text('-').click(function () { document.getElementById('result').innerHTML = '-';  }).appendTo(placement);
+            $('<button />').text('*').click(function () { document.getElementById('result').innerHTML = '*';  }).appendTo(placement);
+            $('<button />').text('/').click(function () { document.getElementById('result').innerHTML = '/';  }).appendTo(placement);
+            $('<button />').text('%').click(function () { document.getElementById('result').innerHTML = '%';  }).appendTo(placement);
+
+        });
+        $('.Display').click(function () {
+            //$(animated).fadeIn(250);
+            //$('.Location').append('<button >Test button</button>');
+            $(animated).animate({
+                width: 'show',
+                height: 'show',
+                marginLeft: 100,
+                marginTop: 100
+            }, 2000);
+            $(this).fadeOut(500);
+        });
+    </script>
+</body>
+</html>
