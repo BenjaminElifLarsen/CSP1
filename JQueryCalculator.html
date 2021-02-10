@@ -19,6 +19,7 @@
     <!--animate the calculator. The entire interface should move in from the left and fade in while it is moving in-->
     <button class="Display">Display calculator</button>
     <div class="PrimaryAnimation">
+        <h1>Math with bad Fitts's law</h1>
         <div class="Location">
 
         </div>
@@ -42,12 +43,6 @@
             operatorArray.forEach(function (value) {
                 $('<button />').text(value).addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += value; }).appendTo(placement)
             });
-            //$('<button />').text('+').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '+'; }).appendTo(placement);
-            //$('<button />').text('-').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '-';  }).appendTo(placement);
-            //$('<button />').text('*').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '*';  }).appendTo(placement);
-            //$('<button />').text('/').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '/';  }).appendTo(placement);
-            //$('<button />').text('%').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '%'; }).appendTo(placement);
-            //$('<button />').text('.').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '.'; }).appendTo(placement); 
             $('<button />').text('c').addClass(clearClass).click(function () {
                 if (document.getElementById('result').innerHTML.length != 0) {
                     var array = document.getElementById('result').innerHTML.split('');
@@ -62,24 +57,12 @@
             numberArray.forEach(function (value) {
                 $('<button />').text(value).addClass(numberClass).click(function () { document.getElementById('result').innerHTML += value; }).appendTo(numberPlacement)
             });
-            //$('<button />').text('0').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '0'; }).appendTo(numberPlacement);
-            //$('<button />').text('1').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '1'; }).appendTo(numberPlacement);
-            //$('<button />').text('2').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '2'; }).appendTo(numberPlacement);
-            //$('<button />').text('3').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '3'; }).appendTo(numberPlacement);
-            //$('<button />').text('4').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '4'; }).appendTo(numberPlacement);
-            //$('<button />').text('5').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '5'; }).appendTo(numberPlacement);
-            //$('<button />').text('6').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '6'; }).appendTo(numberPlacement);
-            //$('<button />').text('7').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '7'; }).appendTo(numberPlacement);
-            //$('<button />').text('8').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '8'; }).appendTo(numberPlacement);
-            //$('<button />').text('9').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '9'; }).appendTo(numberPlacement);
             $('<button />').text('Clear').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML = ''; }).appendTo(numberPlacement).wrap('<div></div>');
             $('.' + numberClass).fadeOut(0).fadeIn(6000);
             $('.' + operatorClass).fadeOut(0).fadeIn(4000);
             $('#result').fadeOut(0).fadeIn(2000);
         });
         $('.Display').click(function () {
-            //$(animated).fadeIn(250);
-            //$('.Location').append('<button >Test button</button>');
             $(animated).animate({
                 width: 'show',
                 height: 'show',
