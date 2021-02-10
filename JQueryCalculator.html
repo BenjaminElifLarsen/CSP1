@@ -20,20 +20,62 @@
     <button class="Display">Display calculator</button>
     <div class="PrimaryAnimation">
         <div class="Location">
+
         </div>
     </div>
     <script>
         var animated = '.PrimaryAnimation';
-        var placement = '.Location'
+        var placement = '.Location'; //don't have a variable called Location, the browser will try to load the value instead of the page
+        var numberPlacement = '.NumberLocation'
+        var operatorClass = 'Operator';
+        var clearClass = 'Clear';
+        var numberClass = 'Number'
+        var calculateClass = 'Calculate'
+        var displayed = 0; //if clicking the button multiple times, the new buttons and text area will appear multiple times
+        //write the entire equation out in the display and when the user clicks '=' it will display the result 
+        //maybe animate the text displayment in the textarea
+        var numberArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var operatorArray = ['+','-','*','/','%','.'];
         $(animated).fadeOut(0);
-        $('button').on('click', function () {
-            $('<textarea />').text("test").attr('id', 'result').appendTo(placement)
-            $('<button />').text('+').click(function () { document.getElementById('result').innerHTML = '+'; }).appendTo(placement);
-            $('<button />').text('-').click(function () { document.getElementById('result').innerHTML = '-';  }).appendTo(placement);
-            $('<button />').text('*').click(function () { document.getElementById('result').innerHTML = '*';  }).appendTo(placement);
-            $('<button />').text('/').click(function () { document.getElementById('result').innerHTML = '/';  }).appendTo(placement);
-            $('<button />').text('%').click(function () { document.getElementById('result').innerHTML = '%';  }).appendTo(placement);
-
+        $('.Display').on('click', function () { 
+            $('<textarea />').text("").attr('id', 'result').appendTo(placement).wrap('<div></div>');
+            operatorArray.forEach(function (value) {
+                $('<button />').text(value).addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += value; }).appendTo(placement)
+            });
+            //$('<button />').text('+').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '+'; }).appendTo(placement);
+            //$('<button />').text('-').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '-';  }).appendTo(placement);
+            //$('<button />').text('*').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '*';  }).appendTo(placement);
+            //$('<button />').text('/').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '/';  }).appendTo(placement);
+            //$('<button />').text('%').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '%'; }).appendTo(placement);
+            //$('<button />').text('.').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += '.'; }).appendTo(placement); 
+            $('<button />').text('c').addClass(clearClass).click(function () {
+                if (document.getElementById('result').innerHTML.length != 0) {
+                    var array = document.getElementById('result').innerHTML.split('');
+                    array.length = array.length - 1;
+                    var stringArray = array.toString();
+                    var string = stringArray.replaceAll(',', '');
+                    document.getElementById('result').innerHTML = string;
+                }
+            }).appendTo(placement);
+            $('<button />').text('=').addClass(calculateClass).click(function () { document.getElementById('result').innerHTML = 'Result'; }).appendTo(placement);
+            $(placement).append('<div class="NumberLocation"></div>');
+            numberArray.forEach(function (value) {
+                $('<button />').text(value).addClass(numberClass).click(function () { document.getElementById('result').innerHTML += value; }).appendTo(numberPlacement)
+            });
+            //$('<button />').text('0').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '0'; }).appendTo(numberPlacement);
+            //$('<button />').text('1').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '1'; }).appendTo(numberPlacement);
+            //$('<button />').text('2').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '2'; }).appendTo(numberPlacement);
+            //$('<button />').text('3').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '3'; }).appendTo(numberPlacement);
+            //$('<button />').text('4').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '4'; }).appendTo(numberPlacement);
+            //$('<button />').text('5').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '5'; }).appendTo(numberPlacement);
+            //$('<button />').text('6').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '6'; }).appendTo(numberPlacement);
+            //$('<button />').text('7').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '7'; }).appendTo(numberPlacement);
+            //$('<button />').text('8').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '8'; }).appendTo(numberPlacement);
+            //$('<button />').text('9').addClass(numberClass).click(function () { document.getElementById('result').innerHTML += '9'; }).appendTo(numberPlacement);
+            $('<button />').text('Clear').addClass(operatorClass).click(function () { document.getElementById('result').innerHTML = ''; }).appendTo(numberPlacement).wrap('<div></div>');
+            $('.' + numberClass).fadeOut(0).fadeIn(6000);
+            $('.' + operatorClass).fadeOut(0).fadeIn(4000);
+            $('#result').fadeOut(0).fadeIn(2000);
         });
         $('.Display').click(function () {
             //$(animated).fadeIn(250);

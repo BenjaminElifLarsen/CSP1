@@ -28,3 +28,20 @@ li{
 .blue {
     background: blue;
 }
+
+.Operator {
+    background-color: firebrick;
+    color: white;
+}
+.Number {
+    background-color: blueviolet;
+    color: white;
+}
+.Clear{
+    background-color:black;
+    color:white;
+}
+.Calculate {
+    background-color: darkslategrey;
+    color: white;
+}
