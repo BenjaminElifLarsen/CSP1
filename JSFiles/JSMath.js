@@ -37,7 +37,7 @@ function ButtonCreations() {
     var operators = ["+", "-", "*", "/"];
     var placementStart = document.getElementById("pratice");
     //for (i = 0; i < operators.length; i++) {
-
+    // // does not work, all buttons end up as the last index in operator, but with their correct symbol on the button.
     //    var button = document.createElement("button");
     //    button.value = operators[i];
     //    button.textContent = operators[i];
