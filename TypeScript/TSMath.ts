@@ -5,7 +5,7 @@ class Calculator {
 
     private static ValidateEquation(equation: string): boolean {
         //check if the equation is valid
-        let chars = equation.split('');
+        let chars = equation.trim().split('');
         let lastCharWasOperator: boolean;
         let operators = ["+", "-", "*", "/", "%", "."];
         let lastThreeChars: Array<string> = Array<string>();
@@ -14,27 +14,43 @@ class Calculator {
         lastThreeChars.push("");
         let validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-        //- should be allowed to be after any operator and an equation should be allowed to start with it
-        //- should not be appear three times or more in a row
-        //any other sign should be a number
-        for (let i = 0; i < chars.length; i++) {
-            if (this.IsOperator(lastThreeChars[0], operators) && (//only true if lastThreeChar[0] is an opeator
-                ((lastThreeChars[0] != "-") && (lastThreeChars[0] && lastThreeChars[1]) //not minus operator, but any operator
-                || (lastThreeChars[0] == "-" && (lastThreeChars[0] == lastThreeChars[1] && lastThreeChars[0] == lastThreeChars[2]))) //minus operator
-                )) { 
-                return false;
-            }
-
-            if (!this.Contains(chars[i], validChars)) {
-                return false;
-            }
-            lastThreeChars = this.MoveValuesInArrayAndAddNewValue(lastThreeChars, chars[i]);
-
-
-
-        }
+        
 
         return true;
+    }
+
+    private static AddSpaceToOperators(equation: string) : string {
+        let position = 0;
+        let lastChar: string = "";
+        let newStringList: Array<string> = Array<string>();
+        let operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
+
+        for (let i = 0; i < equation.length; i++) {
+            let isOpeartor: boolean = false;
+            for (let n = 0; operators.length; n++) {
+                if (position != 0) {
+                    if (lastChar != " ") {
+                        newStringList.push(" ");
+                    }
+                }
+                newStringList.push(equation[i]);
+                if (position != equation.length - 1) {
+                    newStringList.push(" ");
+                }
+                isOpeartor = true;
+                lastChar = " ";
+            }
+            if (!isOpeartor) {
+                if (equation[i] != lastChar) {
+                    newStringList.push(equation[i])
+                    lastChar = ""
+                    if (equation[i] == " ")
+                        lastChar = " ";
+                }
+            }
+
+        }
+        return newStringList.toString().replace(",", "");
     }
 
     private static IsOperator(value: string, operators: Array<string>) : boolean {
@@ -58,8 +74,7 @@ class Calculator {
     } 
 
     private static PrepareString(equation: string): Array<string> {
-        //splits the equation into its chars and assemble them into their parts, each string being a number or a operator
-        return null;
+        return equation.trim().split(" ");
     }
 
     static Calculation(equation: string): string {
@@ -67,12 +82,50 @@ class Calculator {
         let result : string = null; //LowerCalculations()
         let stringParts: Array<string> = null; //PrepareString()
         let restsParts: Array<string> = null; //HigherCalculations()
-        if (!this.ValidateEquation(equation))
+        let equationWithSpaces: string;
+        equationWithSpaces = this.AddSpaceToOperators(equation.trim());
+        if (!this.ValidateEquation(equationWithSpaces))
             return equation;
-        stringParts = this.PrepareString(equation);
-        restsParts = this.HigherCalculations(stringParts);
-        result = this.LowerCalculations(restsParts);
+        stringParts = this.PrepareString(equationWithSpaces);
+        result = this.MathCalculations(stringParts);
+        //restsParts = this.HigherCalculations(stringParts);
+        //result = this.LowerCalculations(restsParts);
 
+        return result;
+    }
+
+    private static MathCalculations(equation: Array<string>): string {
+        let result: string;
+        let toDoMathOn: Array<string>;
+        let paranthesesStringsList: Array<Array<string>> = Array<Array<string>>();
+        paranthesesStringsList.push(Array<string>());
+        let currentString: number = 0;
+        for (let n = 0; n < equation.length; n++) {
+            if (equation[n] == "(") {
+                paranthesesStringsList.push(Array<string>());
+                currentString++;
+            }
+            else if (equation[n] == ")") {
+                toDoMathOn = paranthesesStringsList[currentString];
+                currentString--;
+                if (toDoMathOn.length != 0) {
+                    result = this.Math(toDoMathOn);
+                    paranthesesStringsList.pop();
+                    paranthesesStringsList[currentString].push(result);
+                }
+            }
+            else {
+                if (equation[n] != " ") {
+                    paranthesesStringsList[currentString].push(equation[n]);
+                }
+            }
+        }
+        toDoMathOn = paranthesesStringsList[0];
+        result = this.Math(toDoMathOn);
+        return result;
+    }
+
+    private static Math(parts : Array<string>) : string {
         return null;
     }
 

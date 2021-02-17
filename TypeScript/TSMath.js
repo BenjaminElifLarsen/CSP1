@@ -3,7 +3,7 @@ var Calculator = /** @class */ (function () {
     }
     Calculator.ValidateEquation = function (equation) {
         //check if the equation is valid
-        var chars = equation.split('');
+        var chars = equation.trim().split('');
         var lastCharWasOperator;
         var operators = ["+", "-", "*", "/", "%", "."];
         var lastThreeChars = Array();
@@ -11,22 +11,38 @@ var Calculator = /** @class */ (function () {
         lastThreeChars.push("");
         lastThreeChars.push("");
         var validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        //- should be allowed to be after any operator and an equation should be allowed to start with it
-        //- should not be appear three times or more in a row
-        //any other sign should be a number
-        for (var i = 0; i < chars.length; i++) {
-            if (this.IsOperator(lastThreeChars[0], operators) && ( //only true if lastThreeChar[0] is an opeator
-            ((lastThreeChars[0] != "-") && (lastThreeChars[0] && lastThreeChars[1]) //not minus operator, but any operator
-                || (lastThreeChars[0] == "-" && (lastThreeChars[0] == lastThreeChars[1] && lastThreeChars[0] == lastThreeChars[2]))) //minus operator
-            )) {
-                return false;
-            }
-            if (!this.Contains(chars[i], validChars)) {
-                return false;
-            }
-            lastThreeChars = this.MoveValuesInArrayAndAddNewValue(lastThreeChars, chars[i]);
-        }
         return true;
+    };
+    Calculator.AddSpaceToOperators = function (equation) {
+        var position = 0;
+        var lastChar = "";
+        var newStringList = Array();
+        var operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
+        for (var i = 0; i < equation.length; i++) {
+            var isOpeartor = false;
+            for (var n = 0; operators.length; n++) {
+                if (position != 0) {
+                    if (lastChar != " ") {
+                        newStringList.push(" ");
+                    }
+                }
+                newStringList.push(equation[i]);
+                if (position != equation.length - 1) {
+                    newStringList.push(" ");
+                }
+                isOpeartor = true;
+                lastChar = " ";
+            }
+            if (!isOpeartor) {
+                if (equation[i] != lastChar) {
+                    newStringList.push(equation[i]);
+                    lastChar = "";
+                    if (equation[i] == " ")
+                        lastChar = " ";
+                }
+            }
+        }
+        return newStringList.toString().replace(",", "");
     };
     Calculator.IsOperator = function (value, operators) {
         return this.Contains(value, operators);
@@ -45,19 +61,54 @@ var Calculator = /** @class */ (function () {
         return workArray;
     };
     Calculator.PrepareString = function (equation) {
-        //splits the equation into its chars and assemble them into their parts, each string being a number or a operator
-        return null;
+        return equation.trim().split(" ");
     };
     Calculator.Calculation = function (equation) {
         //calculates the equation and returns the results
         var result = null; //LowerCalculations()
         var stringParts = null; //PrepareString()
         var restsParts = null; //HigherCalculations()
-        if (!this.ValidateEquation(equation))
+        var equationWithSpaces;
+        equationWithSpaces = this.AddSpaceToOperators(equation.trim());
+        if (!this.ValidateEquation(equationWithSpaces))
             return equation;
-        stringParts = this.PrepareString(equation);
-        restsParts = this.HigherCalculations(stringParts);
-        result = this.LowerCalculations(restsParts);
+        stringParts = this.PrepareString(equationWithSpaces);
+        result = this.MathCalculations(stringParts);
+        //restsParts = this.HigherCalculations(stringParts);
+        //result = this.LowerCalculations(restsParts);
+        return result;
+    };
+    Calculator.MathCalculations = function (equation) {
+        var result;
+        var toDoMathOn;
+        var paranthesesStringsList = Array();
+        paranthesesStringsList.push(Array());
+        var currentString = 0;
+        for (var n = 0; n < equation.length; n++) {
+            if (equation[n] == "(") {
+                paranthesesStringsList.push(Array());
+                currentString++;
+            }
+            else if (equation[n] == ")") {
+                toDoMathOn = paranthesesStringsList[currentString];
+                currentString--;
+                if (toDoMathOn.length != 0) {
+                    result = this.Math(toDoMathOn);
+                    paranthesesStringsList.pop();
+                    paranthesesStringsList[currentString].push(result);
+                }
+            }
+            else {
+                if (equation[n] != " ") {
+                    paranthesesStringsList[currentString].push(equation[n]);
+                }
+            }
+        }
+        toDoMathOn = paranthesesStringsList[0];
+        result = this.Math(toDoMathOn);
+        return result;
+    };
+    Calculator.Math = function (parts) {
         return null;
     };
     Calculator.HigherCalculations = function (equationParts) {
