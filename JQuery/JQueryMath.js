@@ -1,7 +1,7 @@
 ﻿
 var equations = [];
 
-function calculating() {
+function calculating() { //math calculation
     var fullString = document.getElementById("result").value.toString();
     var chars = [];
     for (i = 0; i < fullString.length; i++) {
@@ -153,7 +153,7 @@ function Calculator() {
     });
 }
 
-function DisplayEquations(value) {
+function DisplayEquations(value) { //display the old equations and results
     $('.OldEquations').append('' + equations[equations.length-1] + ' = ' + value+'</br>')
 
 }
