@@ -100,7 +100,7 @@ function calculating() { //math calculation
 
 function Calculator() {
     var animated = '.PrimaryAnimation';
-    var placement = '.Location'; //don't have a variable called Location, the browser will try to load the value instead of the page
+    var placement = '.Location'; //don't have a variable called Location, the browser will try to load the value instead of the page sometimes
     var numberPlacement = '.NumberLocation'
     var operatorClass = 'Operator';
     var clearClass = 'Clear';
@@ -119,7 +119,7 @@ function Calculator() {
             $('<button />').text(value).addClass(operatorClass).click(function () { document.getElementById('result').innerHTML += value; }).appendTo(placement) //could make functions out of these
         });
 
-        $('<button />').text('c').addClass(clearClass).click(function () { //add a button and display it, the button can remove a char
+        $('<button />').text('c').addClass(clearClass).click(function () { //adds a button and display it, the button can remove a char
             if (document.getElementById('result').innerHTML.length != 0) {
                 var array = document.getElementById('result').innerHTML.split('');
                 array.length = array.length - 1;

@@ -3,7 +3,7 @@
 class Calculator {
     private static _oldEquations: Array<OldEquation> = Array<OldEquation>();
 
-    private static ValidateEquation(equation: string): boolean {
+    private static ValidateEquation(equation: string): boolean {//should operate on an array instead of a string
         //check if the equation is valid
         let chars = equation.trim().split('');
         let lastCharWasOperator: boolean;
@@ -13,13 +13,13 @@ class Calculator {
         lastThreeChars.push("");
         lastThreeChars.push("");
         let validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
-        
-
+        //so it should have a for-loop around the most of the old code so the chars are those in each string in the array
+        //while the nested level and those variable declarations are outside the loop        
+        //the loop should remember if the string before the current one that is checked is an operator string or not.
         return true;
     }
 
-    private static AddSpaceToOperators(equation: string) : string {
+    private static AddSpaceToOperators(equation: string) : Array<string> { 
         let position = 0;
         let lastChar: string = "";
         let newStringList: Array<string> = Array<string>();
@@ -49,12 +49,14 @@ class Calculator {
                 }
             }
 
-        }
-        return newStringList.toString().replace(",", "");
+        } //return instead of a string, the array.
+        //return newStringList.toString().replace(",", "");
+        return newStringList;
     }
 
-    private static IsOperator(value: string, operators: Array<string>) : boolean {
-        return this.Contains(value,operators);
+    private static IsOperator(value: string): boolean {
+        let operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
+        return this.Contains(value, operators);
     }
 
     private static Contains(valueToCheck : string, checkAgainst: Array<string>) {
@@ -83,15 +85,41 @@ class Calculator {
         let stringParts: Array<string> = null; //PrepareString()
         let restsParts: Array<string> = null; //HigherCalculations()
         let equationWithSpaces: string;
-        equationWithSpaces = this.AddSpaceToOperators(equation.trim());
+        let equationParts: Array<string>;
+        equationParts = this.AddSpaceToOperators(equation.trim());
+        equationParts = this.SomeChecks(equationParts);
         if (!this.ValidateEquation(equationWithSpaces))
             return equation;
         stringParts = this.PrepareString(equationWithSpaces);
         result = this.MathCalculations(stringParts);
         //restsParts = this.HigherCalculations(stringParts);
         //result = this.LowerCalculations(restsParts);
-
+        this.AddToOldEquations(equation, result);
         return result;
+    }
+
+    private static SomeChecks(equationParts: Array<string>): Array<string> {
+        //check if there are places with an operator and the next index is a "-".
+        //If there is, the "-" should be added to the index coming after it to allow negative values.
+        //If the equationParts starts with a "-", it should be added to the index after.
+        let newArray: Array<string> = Array<string>();
+        let lastPart: string = "";
+        for (let i = 0; i < equationParts.length; i++) {
+            if (i == 0 && equationParts[i] == "-") {
+                newArray.push(equationParts[i] + equationParts[i + 1]);
+                i++;
+            }
+            else if (this.IsOperator(lastPart) && equationParts[i] == "-") {
+                newArray.push(equationParts[i]);
+                newArray.push(equationParts[i + 1] + equationParts[i + 2]);
+                i += 2;
+            }
+            else {
+                newArray.push(equationParts[i]);
+            }
+            lastPart = equationParts[i];
+        }
+        return newArray;
     }
 
     private static MathCalculations(equation: Array<string>): string {

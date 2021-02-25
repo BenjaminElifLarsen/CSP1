@@ -11,6 +11,9 @@ var Calculator = /** @class */ (function () {
         lastThreeChars.push("");
         lastThreeChars.push("");
         var validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        //so it should have a for-loop around the most of the old code so the chars are those in each string in the array
+        //while the nested level and those variable declarations are outside the loop        
+        //the loop should remember if the string before the current one that is checked is an operator string or not.
         return true;
     };
     Calculator.AddSpaceToOperators = function (equation) {
@@ -41,10 +44,12 @@ var Calculator = /** @class */ (function () {
                         lastChar = " ";
                 }
             }
-        }
-        return newStringList.toString().replace(",", "");
+        } //return instead of a string, the array.
+        //return newStringList.toString().replace(",", "");
+        return newStringList;
     };
-    Calculator.IsOperator = function (value, operators) {
+    Calculator.IsOperator = function (value) {
+        var operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
         return this.Contains(value, operators);
     };
     Calculator.Contains = function (valueToCheck, checkAgainst) {
@@ -69,14 +74,40 @@ var Calculator = /** @class */ (function () {
         var stringParts = null; //PrepareString()
         var restsParts = null; //HigherCalculations()
         var equationWithSpaces;
-        equationWithSpaces = this.AddSpaceToOperators(equation.trim());
+        var equationParts;
+        equationParts = this.AddSpaceToOperators(equation.trim());
+        equationParts = this.SomeChecks(equationParts);
         if (!this.ValidateEquation(equationWithSpaces))
             return equation;
         stringParts = this.PrepareString(equationWithSpaces);
         result = this.MathCalculations(stringParts);
         //restsParts = this.HigherCalculations(stringParts);
         //result = this.LowerCalculations(restsParts);
+        this.AddToOldEquations(equation, result);
         return result;
+    };
+    Calculator.SomeChecks = function (equationParts) {
+        //check if there are places with an operator and the next index is a "-".
+        //If there is, the "-" should be added to the index coming after it to allow negative values.
+        //If the equationParts starts with a "-", it should be added to the index after.
+        var newArray = Array();
+        var lastPart = "";
+        for (var i = 0; i < equationParts.length; i++) {
+            if (i == 0 && equationParts[i] == "-") {
+                newArray.push(equationParts[i] + equationParts[i + 1]);
+                i++;
+            }
+            else if (this.IsOperator(lastPart) && equationParts[i] == "-") {
+                newArray.push(equationParts[i]);
+                newArray.push(equationParts[i + 1] + equationParts[i + 2]);
+                i += 2;
+            }
+            else {
+                newArray.push(equationParts[i]);
+            }
+            lastPart = equationParts[i];
+        }
+        return newArray;
     };
     Calculator.MathCalculations = function (equation) {
         var result;
