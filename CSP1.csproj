@@ -77,6 +77,7 @@
     <Content Include="JQuery\JQueryMath.js" />
     <Content Include="JSFiles\JSMath.js" />
     <Content Include="TSCalculator.html" />
+    <Content Include="TypeScript\JQueryMath.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
