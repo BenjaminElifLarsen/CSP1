@@ -149,7 +149,8 @@ class Calculator {
         let str: string = "";
         for (let i = 0; i < equationParts.length; i++) {
             if (this.IsOperator(equationParts[i])) {
-                newArray.push(str);
+                if(str != "")
+                    newArray.push(str);
                 newArray.push(equationParts[i]);
                 str = "";
             }
@@ -177,12 +178,13 @@ class Calculator {
                 i++;
             }
             else if (this.IsOperator(lastPart) && equationParts[i] == "-") {
-                newArray.push(equationParts[i]);
-                newArray.push(equationParts[i + 1] + equationParts[i + 2]);
+                //newArray.push(equationParts[i]);
+                newArray.push(equationParts[i] + equationParts[i + 1]);
                 i += 2;
             }
             else {
-                newArray.push(equationParts[i]);
+                if(equationParts[i] != "")
+                    newArray.push(equationParts[i]);
             }
             lastPart = equationParts[i];
         }

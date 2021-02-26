@@ -13,7 +13,7 @@ function CalculatorAnimation() {
     //write the entire equation out in the display and when the user clicks '=' it will display the result 
     //maybe animate the text displayment in the textarea
     var numberArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    var operatorArray = ['+', '-', '*', '/', '%', '.'];
+    var operatorArray = ['+', '-', '*', '/', '%', '.', '(',')'];
     $(animated).fadeOut(0);
     $('.Display').on('click', function () {
         $('<textarea />').text("").attr('id', 'result').appendTo(placement).wrap('<div></div>');
