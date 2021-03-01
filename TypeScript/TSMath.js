@@ -12,7 +12,7 @@ var Calculator = /** @class */ (function () {
                     return false;
                 else if (equation[i] == "-" && lastEntityWasOperator[i] == "-" || lastEntityWasOperator[i] || "(" && lastEntityWasOperator[i] == ")")
                     return false;
-                else if (i > 0 && equation[i] != "(" && /*equation[i] != "(" && */ equation[i - 1] != ")")
+                else if (i > 0 && equation[i] != "(" && equation[i - 1] != ")")
                     return false;
                 if (equation[i] == "(") {
                     parenthesesFound.push(nestedLevel);
@@ -24,7 +24,7 @@ var Calculator = /** @class */ (function () {
                 else if (equation[i] == ")") {
                     parenthesesFound.pop();
                     nestedLevel--;
-                    if (lastEntityWasOperator)
+                    if (lastEntityWasOperator && i > 0 && equation[i - 1] != ")")
                         return false;
                     else if (lastEntityWasOperator && (i > 0 && equation[i - 1] == "("))
                         return false;
@@ -50,36 +50,9 @@ var Calculator = /** @class */ (function () {
         return true;
     };
     Calculator.Splitter = function (equation) {
-        var position = 0;
-        var lastChar = "";
         var newStringList = Array();
         for (var i = 0; i < equation.length; i++)
             newStringList.push(equation[i]);
-        //let operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
-        //for (let i = 0; i < equation.length; i++) {
-        //    let isOpeartor: boolean = false;
-        //    for (let n = 0; n < operators.length; n++) { //missing the "n <" is allowed, allowing for out of memory 
-        //        if (equation[i] == operators[n]) {
-        //            if (position != 0)
-        //                if (lastChar != " ")
-        //                    newStringList.push(" ");
-        //            newStringList.push(equation[i]);
-        //            if (position != equation.length - 1)
-        //                newStringList.push(" ");
-        //            isOpeartor = true;
-        //            lastChar = " ";
-        //            break;
-        //        }
-        //    }
-        //    if (!isOpeartor) {
-        //        if (equation[i] != lastChar) {
-        //            newStringList.push(equation[i])
-        //            lastChar = "";
-        //            if (equation[i] == " ")
-        //                lastChar = " ";
-        //        }
-        //    }
-        //} 
         return newStringList;
     };
     Calculator.IsOperator = function (value) {
@@ -107,15 +80,12 @@ var Calculator = /** @class */ (function () {
         if (equation == null || equation.trim() == "")
             return equation;
         var result = null;
-        var stringParts = null;
-        var equationWithSpaces;
         var equationParts;
         equationParts = this.Splitter(equation.trim());
         equationParts = this.Assembly(equationParts);
         equationParts = this.SomeChecks(equationParts);
         if (!this.ValidateEquation(equationParts))
             return equation;
-        //stringParts = this.PrepareString(equationWithSpaces);
         result = this.MathCalculations(equationParts);
         this.AddToOldEquations(equation, result);
         return result;
@@ -147,12 +117,7 @@ var Calculator = /** @class */ (function () {
         var newArray = Array();
         var lastPart = "";
         for (var i = 0; i < equationParts.length; i++) {
-            //if (i == 0 && equationParts[i] == "-" && (equationParts.length > 2 && equationParts[i+1] == "-")) {
-            //    newArray.push(equationParts[i] + equationParts[i + 1]);
-            //    i++;
-            //}
-            /*else*/ if (this.IsOperator(lastPart) && equationParts[i] == "-") {
-                //newArray.push(equationParts[i]);
+            if (this.IsOperator(lastPart) && equationParts[i - 1] != ")" && equationParts[i] == "-") {
                 newArray.push(equationParts[i] + equationParts[i + 1]);
                 i += 1;
             }
@@ -196,7 +161,7 @@ var Calculator = /** @class */ (function () {
     };
     Calculator.Math = function (parts) {
         var result = 0;
-        var mostImportant = ["*", "/", "%"];
+        var mostImportant = ["*", "/", "%", "^"];
         var leastImportant = ["-", "+"];
         //*, /, and %
         var goneThrough0 = [];
@@ -222,6 +187,14 @@ var Calculator = /** @class */ (function () {
                 var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
                 var rightValue = parseFloat(parts[m + 1]);
                 result = leftValue % rightValue;
+                goneThrough0.length = goneThrough0.length - 1;
+                goneThrough0.push(result.toString());
+                m++;
+            }
+            else if (str == mostImportant[3]) {
+                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
+                var rightValue = parseFloat(parts[m + 1]);
+                result = Math.pow(leftValue, rightValue);
                 goneThrough0.length = goneThrough0.length - 1;
                 goneThrough0.push(result.toString());
                 m++;

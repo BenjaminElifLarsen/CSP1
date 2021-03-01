@@ -14,7 +14,7 @@ class Calculator {
                     return false
                 else if (equation[i] == "-" && lastEntityWasOperator[i] == "-" || lastEntityWasOperator[i] || "(" && lastEntityWasOperator[i] == ")")
                     return false;
-                else if (i > 0 && equation[i] != "(" &&/*equation[i] != "(" && */equation[i-1] != ")")
+                else if (i > 0 && equation[i] != "(" && equation[i-1] != ")")
                     return false;
                 if (equation[i] == "(") {
                     parenthesesFound.push(nestedLevel);
@@ -26,15 +26,13 @@ class Calculator {
                 else if (equation[i] == ")") {
                     parenthesesFound.pop();
                     nestedLevel--;
-                    if (lastEntityWasOperator)
+                    if (lastEntityWasOperator && i > 0 && equation[i-1] != ")")
                         return false;
                     else if (lastEntityWasOperator && (i > 0 && equation[i - 1] == "("))
                         return false;
                     else if (i < equation.length - 1 && !isNaN(+equation[i + 1])) 
                         return false;
                 }
-
-
                 lastEntityWasOperator == true;
             }
             else {
@@ -58,38 +56,10 @@ class Calculator {
     }
 
     private static Splitter(equation: string) : Array<string> { 
-        let position = 0;
-        let lastChar: string = "";
         let newStringList: Array<string> = Array<string>();
         for (let i = 0; i < equation.length; i++)
             newStringList.push(equation[i]);
-        //let operators = ["+", "-", "*", "/", "%", "(", ")", "^"];
-
-        //for (let i = 0; i < equation.length; i++) {
-        //    let isOpeartor: boolean = false;
-        //    for (let n = 0; n < operators.length; n++) { //missing the "n <" is allowed, allowing for out of memory 
-        //        if (equation[i] == operators[n]) {
-        //            if (position != 0)
-        //                if (lastChar != " ")
-        //                    newStringList.push(" ");
-        //            newStringList.push(equation[i]);
-        //            if (position != equation.length - 1)
-        //                newStringList.push(" ");
-        //            isOpeartor = true;
-        //            lastChar = " ";
-        //            break;
-        //        }
-        //    }
-        //    if (!isOpeartor) {
-        //        if (equation[i] != lastChar) {
-        //            newStringList.push(equation[i])
-        //            lastChar = "";
-        //            if (equation[i] == " ")
-        //                lastChar = " ";
-        //        }
-        //    }
-
-        //} 
+        
         return newStringList;
     }
 
@@ -123,15 +93,12 @@ class Calculator {
         if (equation == null || equation.trim() == "")
             return equation;
         let result : string = null;
-        let stringParts: Array<string> = null; 
-        let equationWithSpaces: string;
         let equationParts: Array<string>;
         equationParts = this.Splitter(equation.trim());
         equationParts = this.Assembly(equationParts);
         equationParts = this.SomeChecks(equationParts);
         if (!this.ValidateEquation(equationParts))
             return equation;
-        //stringParts = this.PrepareString(equationWithSpaces);
         result = this.MathCalculations(equationParts);
         this.AddToOldEquations(equation, result);
         return result;
@@ -166,12 +133,7 @@ class Calculator {
         let newArray: Array<string> = Array<string>();
         let lastPart: string = "";
         for (let i = 0; i < equationParts.length; i++) {
-            //if (i == 0 && equationParts[i] == "-" && (equationParts.length > 2 && equationParts[i+1] == "-")) {
-            //    newArray.push(equationParts[i] + equationParts[i + 1]);
-            //    i++;
-            //}
-            /*else*/ if (this.IsOperator(lastPart) && equationParts[i] == "-") { 
-                //newArray.push(equationParts[i]);
+            if (this.IsOperator(lastPart) && equationParts[i-1] != ")" && equationParts[i] == "-") { 
                 newArray.push(equationParts[i] + equationParts[i + 1]);
                 i += 1;
             }
@@ -217,7 +179,7 @@ class Calculator {
 
     private static Math(parts: Array<string>): string {
         let  result: Number = 0;
-        let  mostImportant: Array<string> = ["*", "/", "%"];
+        let  mostImportant: Array<string> = ["*", "/", "%", "^"];
         let leastImportant: Array<string> = ["-", "+"];
         //*, /, and %
         var goneThrough0 = [];
@@ -241,6 +203,14 @@ class Calculator {
                 var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
                 var rightValue = parseFloat(parts[m + 1]);
                 result = leftValue % rightValue;
+                goneThrough0.length = goneThrough0.length - 1;
+                goneThrough0.push(result.toString());
+                m++;
+
+            } else if (str == mostImportant[3]) {
+                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
+                var rightValue = parseFloat(parts[m + 1]);
+                result = Math.pow(leftValue,rightValue);
                 goneThrough0.length = goneThrough0.length - 1;
                 goneThrough0.push(result.toString());
                 m++;
