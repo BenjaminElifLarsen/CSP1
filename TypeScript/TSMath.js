@@ -3,18 +3,7 @@ var Calculator = /** @class */ (function () {
     }
     Calculator.ValidateEquation = function (equation) {
         //check if the equation is valid
-        //let chars = equation.trim().split('');
-        var lastCharWasOperator;
-        var operators = ["+", "-", "*", "/", "%", "."];
-        var lastThreeChars = Array();
-        lastThreeChars.push("");
-        lastThreeChars.push("");
-        lastThreeChars.push("");
-        var validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         var lastEntityWasOperator = false;
-        //so it should have a for-loop around the most of the old code so the chars are those in each string in the array
-        //while the nested level and those variable declarations are outside the loop        
-        //the loop should remember if the string before the current one that is checked is an operator string or not.
         var parenthesesFound = Array();
         var nestedLevel = 0;
         for (var i = 0; i < equation.length; i++) {
@@ -23,7 +12,7 @@ var Calculator = /** @class */ (function () {
                     return false;
                 else if (equation[i] == "-" && lastEntityWasOperator[i] == "-" || lastEntityWasOperator[i] || "(" && lastEntityWasOperator[i] == ")")
                     return false;
-                else if (equation[i] != "-" && equation[i] != "(" && equation[i] != ")")
+                else if (i > 0 && equation[i] != "(" && /*equation[i] != "(" && */ equation[i - 1] != ")")
                     return false;
                 if (equation[i] == "(") {
                     parenthesesFound.push(nestedLevel);
@@ -35,7 +24,7 @@ var Calculator = /** @class */ (function () {
                 else if (equation[i] == ")") {
                     parenthesesFound.pop();
                     nestedLevel--;
-                    if (!lastEntityWasOperator)
+                    if (lastEntityWasOperator)
                         return false;
                     else if (lastEntityWasOperator && (i > 0 && equation[i - 1] == "("))
                         return false;
@@ -45,8 +34,12 @@ var Calculator = /** @class */ (function () {
                 lastEntityWasOperator == true;
             }
             else {
-                if (this.IsOperator(equation[i]))
+                if (this.IsOperator(equation[i])) {
                     lastEntityWasOperator = true;
+                    if (i > 0 && equation[i] == "(")
+                        if (!isNaN(+equation[i - 1]))
+                            return false;
+                }
                 else {
                     lastEntityWasOperator = false;
                     if (isNaN(+equation[i]))
@@ -154,14 +147,14 @@ var Calculator = /** @class */ (function () {
         var newArray = Array();
         var lastPart = "";
         for (var i = 0; i < equationParts.length; i++) {
-            if (i == 0 && equationParts[i] == "-") {
-                newArray.push(equationParts[i] + equationParts[i + 1]);
-                i++;
-            }
-            else if (this.IsOperator(lastPart) && equationParts[i] == "-") {
+            //if (i == 0 && equationParts[i] == "-" && (equationParts.length > 2 && equationParts[i+1] == "-")) {
+            //    newArray.push(equationParts[i] + equationParts[i + 1]);
+            //    i++;
+            //}
+            /*else*/ if (this.IsOperator(lastPart) && equationParts[i] == "-") {
                 //newArray.push(equationParts[i]);
                 newArray.push(equationParts[i] + equationParts[i + 1]);
-                i += 2;
+                i += 1;
             }
             else {
                 if (equationParts[i] != "")

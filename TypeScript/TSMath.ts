@@ -3,20 +3,9 @@
 class Calculator {
     private static _oldEquations: Array<OldEquation> = Array<OldEquation>();
 
-    private static ValidateEquation(equation: Array<string>): boolean {//should operate on an array instead of a string
+    private static ValidateEquation(equation: Array<string>): boolean {
         //check if the equation is valid
-        //let chars = equation.trim().split('');
-        let lastCharWasOperator: boolean;
-        let operators = ["+", "-", "*", "/", "%", "."];
-        let lastThreeChars: Array<string> = Array<string>();
-        lastThreeChars.push("");
-        lastThreeChars.push("");
-        lastThreeChars.push("");
-        let validChars = ["+", "-", "*", "/", "%", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         let lastEntityWasOperator: boolean = false;
-        //so it should have a for-loop around the most of the old code so the chars are those in each string in the array
-        //while the nested level and those variable declarations are outside the loop        
-        //the loop should remember if the string before the current one that is checked is an operator string or not.
         let parenthesesFound: Array<number> = Array<number>();
         let nestedLevel: number = 0;
         for (let i = 0; i < equation.length; i++) {
@@ -25,7 +14,7 @@ class Calculator {
                     return false
                 else if (equation[i] == "-" && lastEntityWasOperator[i] == "-" || lastEntityWasOperator[i] || "(" && lastEntityWasOperator[i] == ")")
                     return false;
-                else if (equation[i] != "-" && equation[i] != "(" && equation[i] != ")")
+                else if (i > 0 && equation[i] != "(" &&/*equation[i] != "(" && */equation[i-1] != ")")
                     return false;
                 if (equation[i] == "(") {
                     parenthesesFound.push(nestedLevel);
@@ -37,7 +26,7 @@ class Calculator {
                 else if (equation[i] == ")") {
                     parenthesesFound.pop();
                     nestedLevel--;
-                    if (!lastEntityWasOperator)
+                    if (lastEntityWasOperator)
                         return false;
                     else if (lastEntityWasOperator && (i > 0 && equation[i - 1] == "("))
                         return false;
@@ -49,8 +38,12 @@ class Calculator {
                 lastEntityWasOperator == true;
             }
             else {
-                if (this.IsOperator(equation[i]))
+                if (this.IsOperator(equation[i])) {
                     lastEntityWasOperator = true;
+                    if (i > 0 && equation[i] == "(")
+                        if (!isNaN(+equation[i - 1]))
+                            return false;
+                }
                 else {
                     lastEntityWasOperator = false;
                     if (isNaN(+equation[i]))
@@ -173,14 +166,14 @@ class Calculator {
         let newArray: Array<string> = Array<string>();
         let lastPart: string = "";
         for (let i = 0; i < equationParts.length; i++) {
-            if (i == 0 && equationParts[i] == "-") {
-                newArray.push(equationParts[i] + equationParts[i + 1]);
-                i++;
-            }
-            else if (this.IsOperator(lastPart) && equationParts[i] == "-") {
+            //if (i == 0 && equationParts[i] == "-" && (equationParts.length > 2 && equationParts[i+1] == "-")) {
+            //    newArray.push(equationParts[i] + equationParts[i + 1]);
+            //    i++;
+            //}
+            /*else*/ if (this.IsOperator(lastPart) && equationParts[i] == "-") { 
                 //newArray.push(equationParts[i]);
                 newArray.push(equationParts[i] + equationParts[i + 1]);
-                i += 2;
+                i += 1;
             }
             else {
                 if(equationParts[i] != "")
@@ -320,7 +313,7 @@ function GetOldEquations(): Array<OldEquation> {
     return Calculator.OldEquations;
 }
 
-function GetLastOldEquation(): OldEquation {
+function GetLastOldEquation(): OldEquation { //if the equation is invalid, it will still return the last valid equation and display it again
     return Calculator.OldEquations[Calculator.OldEquations.length - 1];
 }
 
