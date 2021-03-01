@@ -117,7 +117,11 @@ var Calculator = /** @class */ (function () {
         var newArray = Array();
         var lastPart = "";
         for (var i = 0; i < equationParts.length; i++) {
-            if (this.IsOperator(lastPart) && equationParts[i - 1] != ")" && equationParts[i] == "-") {
+            if (i == 0 && equationParts[i] == "-" && equationParts.length > 1 && equationParts[i + 1] != "-") { //need to check if the equation starts with a -
+                newArray.push(equationParts[i] + equationParts[i + 1]);
+                i += 1;
+            }
+            else if (this.IsOperator(lastPart) && equationParts[i - 1] != ")" && equationParts[i] == "-") {
                 newArray.push(equationParts[i] + equationParts[i + 1]);
                 i += 1;
             }
