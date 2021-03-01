@@ -169,33 +169,11 @@ var Calculator = /** @class */ (function () {
         var leastImportant = ["-", "+"];
         //*, /, and %
         var goneThrough0 = [];
+        var goneThrough1 = [];
+        var goneThrough2 = [];
         for (var m = 0; m < parts.length; m++) {
             var str = parts[m];
-            if (str == mostImportant[0]) {
-                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
-                var rightValue = parseFloat(parts[m + 1]);
-                result = leftValue * rightValue;
-                goneThrough0.length = goneThrough0.length - 1;
-                goneThrough0.push(result.toString());
-                m++;
-            }
-            else if (str == mostImportant[1]) {
-                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
-                var rightValue = parseFloat(parts[m + 1]);
-                result = leftValue / rightValue;
-                goneThrough0.length = goneThrough0.length - 1;
-                goneThrough0.push(result.toString());
-                m++;
-            }
-            else if (str == mostImportant[2]) {
-                var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
-                var rightValue = parseFloat(parts[m + 1]);
-                result = leftValue % rightValue;
-                goneThrough0.length = goneThrough0.length - 1;
-                goneThrough0.push(result.toString());
-                m++;
-            }
-            else if (str == mostImportant[3]) {
+            if (str == mostImportant[3]) {
                 var leftValue = parseFloat(goneThrough0[goneThrough0.length - 1]);
                 var rightValue = parseFloat(parts[m + 1]);
                 result = Math.pow(leftValue, rightValue);
@@ -207,22 +185,28 @@ var Calculator = /** @class */ (function () {
                 goneThrough0.push(str);
             }
         }
-        //+ and -
-        var goneThrough1 = [];
         for (var m = 0; m < goneThrough0.length; m++) {
             var str = goneThrough0[m];
-            if (str == leastImportant[0]) {
+            if (str == mostImportant[0]) {
                 var leftValue = parseFloat(goneThrough1[goneThrough1.length - 1]);
                 var rightValue = parseFloat(goneThrough0[m + 1]);
-                result = leftValue - rightValue;
+                result = leftValue * rightValue;
                 goneThrough1.length = goneThrough1.length - 1;
                 goneThrough1.push(result.toString());
                 m++;
             }
-            else if (str == leastImportant[1]) {
+            else if (str == mostImportant[1]) {
                 var leftValue = parseFloat(goneThrough1[goneThrough1.length - 1]);
                 var rightValue = parseFloat(goneThrough0[m + 1]);
-                result = leftValue + rightValue;
+                result = leftValue / rightValue;
+                goneThrough1.length = goneThrough1.length - 1;
+                goneThrough1.push(result.toString());
+                m++;
+            }
+            else if (str == mostImportant[2]) {
+                var leftValue = parseFloat(goneThrough1[goneThrough1.length - 1]);
+                var rightValue = parseFloat(goneThrough0[m + 1]);
+                result = leftValue % rightValue;
                 goneThrough1.length = goneThrough1.length - 1;
                 goneThrough1.push(result.toString());
                 m++;
@@ -231,7 +215,30 @@ var Calculator = /** @class */ (function () {
                 goneThrough1.push(str);
             }
         }
-        return goneThrough1[0];
+        //+ and -
+        for (var m = 0; m < goneThrough1.length; m++) {
+            var str = goneThrough1[m];
+            if (str == leastImportant[0]) {
+                var leftValue = parseFloat(goneThrough2[goneThrough2.length - 1]);
+                var rightValue = parseFloat(goneThrough1[m + 1]);
+                result = leftValue - rightValue;
+                goneThrough2.length = goneThrough2.length - 1;
+                goneThrough2.push(result.toString());
+                m++;
+            }
+            else if (str == leastImportant[1]) {
+                var leftValue = parseFloat(goneThrough2[goneThrough2.length - 1]);
+                var rightValue = parseFloat(goneThrough1[m + 1]);
+                result = leftValue + rightValue;
+                goneThrough2.length = goneThrough2.length - 1;
+                goneThrough2.push(result.toString());
+                m++;
+            }
+            else {
+                goneThrough2.push(str);
+            }
+        }
+        return goneThrough2[0];
     };
     Calculator.AddToOldEquations = function (equation, result) {
         this._oldEquations.push(new OldEquation(result, equation));
