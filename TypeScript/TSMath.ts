@@ -127,13 +127,11 @@ class Calculator {
     }
 
     private static SomeChecks(equationParts: Array<string>): Array<string> {
-        //check if there are places with an operator and the next index is a "-".
-        //If there is, the "-" should be added to the index coming after it to allow negative values.
-        //If the equationParts starts with a "-", it should be added to the index after.
+
         let newArray: Array<string> = Array<string>();
         let lastPart: string = "";
         for (let i = 0; i < equationParts.length; i++) {
-            if (i == 0 && equationParts[i] == "-" && equationParts.length > 1 && equationParts[i + 1] != "-") { //need to check if the equation starts with a -
+            if (i == 0 && equationParts[i] == "-" && equationParts.length > 1 && equationParts[i + 1] != "-") {
                 newArray.push(equationParts[i] + equationParts[i + 1]);
                 i += 1;
             }
