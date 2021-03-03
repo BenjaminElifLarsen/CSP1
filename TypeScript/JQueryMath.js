@@ -37,7 +37,7 @@ function CalculatorAnimation() {
             document.getElementById('result').innerHTML = Calculator.Calculation(document.getElementById('result').innerHTML);
             //for (var i = 0; i < GetOldEquations().length; i++) {
             //    $('.OldEquations').append('' + GetOldEquations()[i].Equation + ' = ' + GetOldEquations()[i].Result + '</br>')
-            $('.OldEquations').append('' + GetLastOldEquation().Equation + ' = ' + GetLastOldEquation().Result + '</br>');
+            $('.OldEquations').append('' + GetLastOldEquation().toString() + '</br>'); 
             //}
         }).appendTo(placement); //adds and display a button that calculates the equatio and displays the result
 
